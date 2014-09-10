@@ -10,6 +10,7 @@ class Categoria {
 
 	static mapping = {
 		id column: "id", generator: "sequence", params: ["sequence" : "CS_CATEGORIA_SEQ"]
+		version false
 	}
 	
 	static constraints = {

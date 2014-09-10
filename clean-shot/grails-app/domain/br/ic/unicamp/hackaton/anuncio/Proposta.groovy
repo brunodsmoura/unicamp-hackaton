@@ -9,6 +9,10 @@ class Proposta {
 	Integer prazo
 	Double valor
 
+	static mapping = {
+		version false
+	}
+
 	static belongsTo = [profissional: FreeLancer]
 
 }

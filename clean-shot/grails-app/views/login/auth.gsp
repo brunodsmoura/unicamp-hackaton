@@ -110,7 +110,7 @@
 			</p>
 			
 			<p>
-				<oauth:connect provider="linkedin" id="linkedin-connect-link">Linkedin</oauth:connect>
+				<oauth:connect provider="linkedin" id="linkedin-connect-link">Cadastre-se via Linkedin!</oauth:connect>
 			</p>
 
 			<p>

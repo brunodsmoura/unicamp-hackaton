@@ -12,6 +12,10 @@ class Anuncio {
 	static hasMany = [propostas: Proposta,
 					  requisitos: Requisito]
 
+	static mapping = {
+		version false
+	}
+	
 	static constraints = {
 		valorPrevisto nullable: true
 		propostaVencedora nullable: true

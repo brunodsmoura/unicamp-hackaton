@@ -78,7 +78,7 @@ grails.spring.bean.packages = []
 grails.web.disable.multipart=false
 
 // request parameters to mask when logging exceptions
-grails.exceptionresolver.params.exclude = ['password']
+grails.exceptionresolver.params.exclude = ['password', 'senha']
 
 // configure auto-caching of queries by default (if false you can cache individual queries with 'cache: true')
 grails.hibernate.cache.queries = false
@@ -89,13 +89,16 @@ grails.hibernate.pass.readonly = false
 // configure passing read-only to OSIV session by default, requires "singleSession = false" OSIV mode
 grails.hibernate.osiv.readonly = false
 
+def baseURL = ""
+
 environments {
     development {
         grails.logging.jul.usebridge = true
+		baseURL = "http://localhost:8080/clean-shot"
     }
     production {
         grails.logging.jul.usebridge = false
-        // TODO: grails.serverURL = "http://www.changeme.com"
+		baseURL = "http://192.168.1.101:8080/clean-shot"
     }
 }
 
@@ -118,4 +121,36 @@ log4j = {
            'org.springframework',
            'org.hibernate',
            'net.sf.ehcache.hibernate'
+}
+
+userLookup.userDomainClassName="br.ic.unicamp.hackaton.usuario"
+userLookup.usernamePropertyName="email"
+userLookup.passwordPropertyName="senha"
+
+grails.plugin.springsecurity.controllerAnnotations.staticRules = [
+	'/':               ['permitAll'],
+	'/index':          ['permitAll'],
+	'/index.gsp':      ['permitAll'],
+	'/assets/**':      ['permitAll'],
+	'/**/js/**':       ['permitAll'],
+	'/**/css/**':      ['permitAll'],
+	'/**/images/**':   ['permitAll'],
+	'/**/favicon.ico': ['permitAll'],
+	'/usuario/create/**':   ['permitAll'],
+	'/usuario/save/**':   	['permitAll'],
+	'/dbconsole/**':   ['permitAll'],
+	'/oauth/**': 	   ['permitAll'],
+ ]
+
+oauth {
+	providers {
+	  linkedin {
+		api = org.scribe.builder.api.LinkedInApi
+		key = '77sylrxe3rvita'
+		secret = '06vENagzDfqMe7UT'
+		successUri = '/usuario/create'
+		failureUri = '/oauth/linkedin/error'
+		callback = "${baseURL}/oauth/linkedin/callback"
+	  }
+	}
 }
