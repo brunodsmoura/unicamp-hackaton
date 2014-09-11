@@ -4,8 +4,6 @@ import br.ic.unicamp.hackaton.anuncio.Anuncio
 
 class Contratante extends Usuario {
 
-	String nomeContato
-	
 	static hasMany = [anuncios: Anuncio,
 					  ramos: Ramo]
 	

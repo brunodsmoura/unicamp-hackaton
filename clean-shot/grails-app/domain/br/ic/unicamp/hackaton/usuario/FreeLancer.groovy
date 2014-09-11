@@ -4,7 +4,6 @@ import br.ic.unicamp.hackaton.anuncio.Proposta
 
 class FreeLancer extends Usuario {
 
-	String nome
 	String celular
 	
 	static hasMany = [habilidades: Habilidade,

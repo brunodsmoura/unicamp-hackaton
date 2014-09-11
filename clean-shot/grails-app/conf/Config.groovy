@@ -102,6 +102,12 @@ environments {
     }
 }
 
+
+grails.plugin.springsecurity.useSecurityEventListener = true
+grails.plugin.springsecurity.onAbstractAuthenticationFailureEvent = { e, appCtx ->
+   println "\nERROR auth failed for user $e.authentication.name: $e.exception.message\n"
+}
+
 // log4j configuration
 log4j = {
     // Example of changing the log pattern for the default console appender:
@@ -123,9 +129,10 @@ log4j = {
            'net.sf.ehcache.hibernate'
 }
 
-userLookup.userDomainClassName="br.ic.unicamp.hackaton.usuario"
-userLookup.usernamePropertyName="email"
-userLookup.passwordPropertyName="senha"
+grails.plugin.springsecurity.userLookup.userDomainClassName="br.ic.unicamp.hackaton.usuario.Usuario"
+grails.plugin.springsecurity.userLookup.usernamePropertyName="email"
+grails.plugin.springsecurity.userLookup.passwordPropertyName="senha"
+grails.plugin.springsecurity.authority.className="br.ic.unicamp.hackaton.security.Papel"
 
 grails.plugin.springsecurity.controllerAnnotations.staticRules = [
 	'/':               ['permitAll'],
@@ -136,10 +143,14 @@ grails.plugin.springsecurity.controllerAnnotations.staticRules = [
 	'/**/css/**':      ['permitAll'],
 	'/**/images/**':   ['permitAll'],
 	'/**/favicon.ico': ['permitAll'],
+	'/login/**': 	   ['permitAll'],
+	'/logout/**': 	   ['permitAll'],
 	'/usuario/create/**':   ['permitAll'],
 	'/usuario/save/**':   	['permitAll'],
 	'/dbconsole/**':   ['permitAll'],
 	'/oauth/**': 	   ['permitAll'],
+	'/home/**':		   ['ROLE_CONTRATANTE', 'ROLE_FREELANCER'],
+	'/anuncio/**':	   ['ROLE_CONTRATANTE']
  ]
 
 oauth {
