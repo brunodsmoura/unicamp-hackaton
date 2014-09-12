@@ -13,8 +13,16 @@ class UsuarioController {
 	
 	def usuarioService
 	def oauthService
+	def springSecurityService
+	
+	def allowedMethods = ["POST": "save"]
 	
 	def create(){
+		if(springSecurityService.isLoggedIn()){
+			redirect(uri: '/login/index')
+			return true
+		}
+		
 	    Token linkedinAccessToken = (Token) session[oauthService.findSessionKeyForAccessToken('linkedin')]
 	    def linkedInResponse = oauthService.getLinkedInResource(linkedinAccessToken, "http://api.linkedin.com/v1/people/~:(first-name,last-name,email-address)?format=json")
 	    def linkedinParsedResponse = JSON.parse(linkedInResponse?.getBody())
@@ -39,8 +47,10 @@ class UsuarioController {
 		
 		try{ 
 			usuarioService.criar(usuario)
-			
+			springSecurityService.reauthenticate(usuario.email, params["senha"])
+
 			redirect(uri: "/home/index")
+			return true
 		}catch(HibernateException cause){
 			if(!usuario.hasErrors())
 				usuario.errors.reject("Problemas na persistência dos dados. Tente novamente")

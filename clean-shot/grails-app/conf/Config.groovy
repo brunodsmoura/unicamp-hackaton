@@ -150,7 +150,8 @@ grails.plugin.springsecurity.controllerAnnotations.staticRules = [
 	'/dbconsole/**':   ['permitAll'],
 	'/oauth/**': 	   ['permitAll'],
 	'/home/**':		   ['ROLE_CONTRATANTE', 'ROLE_FREELANCER'],
-	'/anuncio/**':	   ['ROLE_CONTRATANTE']
+	'/anuncio/**':	   ['ROLE_CONTRATANTE'],
+	'/proposta/**':	   ['ROLE_FREELANCER']
  ]
 
 oauth {
@@ -163,5 +164,14 @@ oauth {
 		failureUri = '/oauth/linkedin/error'
 		callback = "${baseURL}/oauth/linkedin/callback"
 	  }
+	  
+	  twitter {
+		  api = org.scribe.builder.api.TwitterApi
+		  key = 'eZW8mm5KcK6KjX3NeccyjJ0Gp'
+		  secret = 'f3jESWB9vzIxBFpBqx0jH4qTBYPwjxA1LPyLOwhdnmhtMbFUxP'
+		  successUri = '/anuncio/index'
+		  failureUri = '/oauth/twitter/error'
+		  callback = "${baseURL}/oauth/twitter/callback"
+		}
 	}
 }
