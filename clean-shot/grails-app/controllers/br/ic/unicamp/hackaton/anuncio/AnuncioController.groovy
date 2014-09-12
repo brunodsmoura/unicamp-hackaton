@@ -2,6 +2,10 @@ package br.ic.unicamp.hackaton.anuncio
 
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
+
+import org.scribe.model.Token
+
+import twitter4j.TwitterException
 import br.ic.unicamp.hackaton.usuario.Contratante
 
 @Transactional(readOnly = true)
@@ -10,6 +14,8 @@ class AnuncioController {
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 	
 	def springSecurityService
+	def twitterService
+	def oauthService
 
     def index(Integer max) {
 		params.max = Math.min(max ?: 10, 100)
@@ -43,6 +49,7 @@ class AnuncioController {
         }
 
         anuncioInstance.save flush:true
+		flash.created = true
 
         request.withFormat {
             form multipartForm {
@@ -98,6 +105,34 @@ class AnuncioController {
             '*'{ render status: NO_CONTENT }
         }
     }
+	
+	def sendTweet(){
+		Contratante loggedUser = (Contratante) springSecurityService.currentUser
+		Long lastId = Anuncio.createCriteria().get {
+							projections {
+								max("id")
+							}
+							
+							eq("contratante", loggedUser)
+					  }
+		
+		Anuncio anuncio = Anuncio.get(lastId)
+		if(anuncio) {
+			try {
+				Token twitterAccessToken = (Token) session[oauthService.findSessionKeyForAccessToken('twitter')]
+				
+				twitterService.tweetNovoAnuncio(twitterAccessToken, anuncio)	
+				flash.success_message = "Tweet publicado com sucesso!"
+			} catch(TwitterException cause) {
+				log.error(cause)
+				flash.error_message = "Problemas ao publicar o tweet. Tente novamente."
+			}
+		} else {
+			flash.error_message = "Anuncio para a publicacao do tweet não informado. Tente novamente."
+		}
+		
+		redirect(uri: "/anuncio/index", params: ["id": params.long("id")])
+	}
 
     protected void notFound() {
         request.withFormat {

@@ -35,7 +35,7 @@ class PropostaController {
             return
         }
 
-        propostaInstance.save flush:true
+		propostaInstance.save flush:true
 
         request.withFormat {
             form multipartForm {

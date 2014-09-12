@@ -21,6 +21,10 @@
 			<g:if test="${flash.message}">
 			<div class="message" role="status">${flash.message}</div>
 			</g:if>
+			<g:if test="${flash.created}">
+				<div class="message" role="status">Você acabou de criar um novo anúncio! <oauth:connect provider="twitter" id="twitter-connect-link" redirectUrl="http://127.0.0.1:8080/sendTweet?id=${params.long('id')}">Clique aqui</oauth:connect> para compartilhá-lo no Twitter!</div>
+			</g:if>
+			
 			<ol class="property-list anuncio">
 			
 				<g:if test="${anuncioInstance?.valorPrevisto}">

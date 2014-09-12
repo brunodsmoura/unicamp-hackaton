@@ -166,12 +166,14 @@ oauth {
 	  }
 	  
 	  twitter {
-		  api = org.scribe.builder.api.TwitterApi
+		  api = org.scribe.builder.api.TwitterApi.SSL
 		  key = 'eZW8mm5KcK6KjX3NeccyjJ0Gp'
 		  secret = 'f3jESWB9vzIxBFpBqx0jH4qTBYPwjxA1LPyLOwhdnmhtMbFUxP'
-		  successUri = '/anuncio/index'
+		  successUri = '/anuncio/sendTweet'
 		  failureUri = '/oauth/twitter/error'
 		  callback = "${baseURL}/oauth/twitter/callback"
 		}
 	}
 }
+
+security.successHandler.defaultTargetUrl="/home"

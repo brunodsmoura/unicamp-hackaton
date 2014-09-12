@@ -17,11 +17,19 @@
 		</div>
 		<div id="list-anuncio" class="content scaffold-list" role="main">
 			<h1><g:message code="default.list.label" args="[entityName]" /></h1>
+
 			<g:if test="${flash.message}">
 				<div class="message" role="status">${flash.message}</div>
 			</g:if>
+			<g:if test="${flash.error_message}">
+				<div class="alert alert-danger" role="status"><p class="bg-danger">${flash.error_message}</p></div>
+			</g:if>
+			<g:if test="${flash.success_message}">
+				<div class="message" role="status">${flash.success_message}</div>
+			</g:if>
+
 			<table>
-			<thead>
+				<thead>
 					<tr>
 					
 						<g:sortableColumn property="valorPrevisto" title="${message(code: 'anuncio.valorPrevisto.label', default: 'Valor Previsto')}" />
