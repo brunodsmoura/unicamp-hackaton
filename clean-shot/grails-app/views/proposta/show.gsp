@@ -27,45 +27,45 @@
 					<li class="fieldcontain">
 						<span id="anuncio-label" class="property-label"><g:message code="proposta.anuncio.label" default="Anuncio" /></span>
 						
-							<span class="property-value" aria-labelledby="anuncio-label"><g:link controller="anuncio" action="show" id="${propostaInstance?.anuncio?.id}">${propostaInstance?.anuncio?.encodeAsHTML()}</g:link></span>
+							<span class="property-value" aria-labelledby="anuncio-label"><g:link controller="anuncio" action="show" id="${propostaInstance?.anuncio?.id}">${propostaInstance?.anuncio?.titulo}</g:link></span>
 						
 					</li>
 				</g:if>
 			
 				<g:if test="${propostaInstance?.dataEnvio}">
-				<li class="fieldcontain">
-					<span id="dataEnvio-label" class="property-label"><g:message code="proposta.dataEnvio.label" default="Data Envio" /></span>
-					
-						<span class="property-value" aria-labelledby="dataEnvio-label"><g:formatDate date="${propostaInstance?.dataEnvio}" /></span>
-					
-				</li>
+					<li class="fieldcontain">
+						<span id="dataEnvio-label" class="property-label"><g:message code="proposta.dataEnvio.label" default="Data Envio" /></span>
+						
+							<span class="property-value" aria-labelledby="dataEnvio-label"><g:formatDate date="${propostaInstance?.dataEnvio}" /></span>
+						
+					</li>
 				</g:if>
 			
 				<g:if test="${propostaInstance?.prazo}">
-				<li class="fieldcontain">
-					<span id="prazo-label" class="property-label"><g:message code="proposta.prazo.label" default="Prazo" /></span>
-					
-						<span class="property-value" aria-labelledby="prazo-label"><g:fieldValue bean="${propostaInstance}" field="prazo"/></span>
-					
-				</li>
+					<li class="fieldcontain">
+						<span id="prazo-label" class="property-label"><g:message code="proposta.prazo.label" default="Prazo" /></span>
+						
+							<span class="property-value" aria-labelledby="prazo-label"><g:fieldValue bean="${propostaInstance}" field="prazo"/> dias.</span>
+						
+					</li>
+				</g:if>
+				
+				<g:if test="${propostaInstance?.valor}">
+					<li class="fieldcontain">
+						<span id="valor-label" class="property-label"><g:message code="proposta.valor.label" default="Valor" /></span>
+						
+							<span class="property-value" aria-labelledby="valor-label"><g:fieldValue bean="${propostaInstance}" field="valor"/></span>
+						
+					</li>
 				</g:if>
 			
 				<g:if test="${propostaInstance?.profissional}">
-				<li class="fieldcontain">
-					<span id="profissional-label" class="property-label"><g:message code="proposta.profissional.label" default="Profissional" /></span>
-					
-						<span class="property-value" aria-labelledby="profissional-label"><g:link controller="freeLancer" action="show" id="${propostaInstance?.profissional?.id}">${propostaInstance?.profissional?.encodeAsHTML()}</g:link></span>
-					
-				</li>
-				</g:if>
-			
-				<g:if test="${propostaInstance?.valor}">
-				<li class="fieldcontain">
-					<span id="valor-label" class="property-label"><g:message code="proposta.valor.label" default="Valor" /></span>
-					
-						<span class="property-value" aria-labelledby="valor-label"><g:fieldValue bean="${propostaInstance}" field="valor"/></span>
-					
-				</li>
+					<li class="fieldcontain">
+						<span id="profissional-label" class="property-label"><g:message code="proposta.profissional.label" default="Profissional" /></span>
+						
+							<span class="property-value" aria-labelledby="profissional-label"><g:link controller="freeLancer" action="show" id="${propostaInstance?.profissional?.id}">${propostaInstance?.profissional?.nome?.encodeAsHTML()}</g:link></span>
+						
+					</li>
 				</g:if>
 			
 			</ol>

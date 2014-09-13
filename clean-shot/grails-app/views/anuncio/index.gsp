@@ -26,7 +26,7 @@
 					</div>
 				</g:if>
 				<g:else>
-					<h1>Listagem de Anúncios do ${usuarioLogado?.nome}</h1>
+					<h1>Listagem de Anúncios: ${usuarioLogado?.nome}</h1>
 		
 					<g:if test="${flash.message}">
 						<div class="message" role="status">${flash.message}</div>

@@ -14,8 +14,10 @@ class PropostaController {
 	def springSecurityService
 
     def index(Integer max) {
+		FreeLancer usuarioLogado = (FreeLancer) springSecurityService.currentUser
+
         params.max = Math.min(max ?: 10, 100)
-        respond Proposta.list(params), model:[propostaInstanceCount: Proposta.count()]
+        respond Proposta.list(params), model:[propostaInstanceCount: Proposta.count(), usuarioLogado: usuarioLogado]
     }
 
     def show(Proposta propostaInstance) {
@@ -105,26 +107,32 @@ class PropostaController {
 	}
 	
 	def recuperarAnuncios(){
+		flash.clear()
+		
 		Long categoriaId = params.long("categoria")
 		String titulo = params['titulo']
 		Date dataCriacao = params["dataCriacao"]
-		List<Long> requisitosId = parseLongs(params.list("requisito"))
+
+		List<Long> requisitosId = parseLongs(params["requisito"]?.split(',')?.toList())
 		List<Anuncio> anunciosEncontrados = Collections.emptyList()
-		
+		boolean hasErrors = false
+
 		if(categoriaId || titulo || dataCriacao || requisitosId){
 			anunciosEncontrados = Anuncio.createCriteria().list {
 				if(categoriaId) eq("categoria.id", categoriaId)
 				if(titulo) ilike("titulo", "%"+titulo+"%")
+				if(dataCriacao) le("dataCriacao", retrieveDateLastHour(dataCriacao))
 				if(requisitosId){
 					createAlias("requisitos", "req")
 					"in"("req.id", requisitosId)
 				}
 			}
 		} else {
-			flash.error_message = "Não foram encontrados registros"
+			flash.error_message = "É obrigatória a seleção de ao menos um campo para busca."
+			hasErrors = true
 		}
 		
-		render(template: "/proposta/modal/tabela_resultados", model: ["anuncios": anunciosEncontrados])
+		render(template: "/proposta/modal/tabela_resultados", model: ["anuncios": anunciosEncontrados, "hasErrors": true])
 	}
 
     protected void notFound() {
@@ -152,5 +160,19 @@ class PropostaController {
 		
 		parsedIds.removeAll(Collections.singleton(null))
 		return parsedIds
+	}
+	
+	private Date retrieveDateLastHour(Date date){
+		if(!date) return null
+		
+		Calendar calendar = Calendar.getInstance()
+		calendar.setTime(date)
+		
+		calendar.set(Calendar.HOUR_OF_DAY, calendar.getActualMaximum(Calendar.HOUR_OF_DAY))
+		calendar.set(Calendar.MINUTE, calendar.getActualMaximum(Calendar.MINUTE))
+		calendar.set(Calendar.SECOND, calendar.getActualMaximum(Calendar.SECOND))
+		calendar.set(Calendar.MILLISECOND, calendar.getActualMaximum(Calendar.MILLISECOND))
+		
+		return calendar.getTime()
 	}
 }

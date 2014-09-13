@@ -25,7 +25,7 @@
 					</div>
 				</g:if>
 				<g:else>
-					<h1><g:message code="default.list.label" args="[entityName]" /></h1>
+					<h1>Listagem de Propostas: ${usuarioLogado?.nome}</h1>
 					<g:if test="${flash.message}">
 						<div class="message" role="status">${flash.message}</div>
 					</g:if>
@@ -40,8 +40,6 @@
 							
 								<g:sortableColumn property="prazo" title="${message(code: 'proposta.prazo.label', default: 'Prazo')}" />
 							
-								<th><g:message code="proposta.profissional.label" default="Profissional" /></th>
-							
 								<g:sortableColumn property="valor" title="${message(code: 'proposta.valor.label', default: 'Valor')}" />
 							
 							</tr>
@@ -50,13 +48,11 @@
 						<g:each in="${propostaInstanceList}" status="i" var="propostaInstance">
 							<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
 							
-								<td><g:link action="show" id="${propostaInstance.id}">${fieldValue(bean: propostaInstance, field: "anuncio")}</g:link></td>
+								<td><g:link action="show" id="${propostaInstance.id}">${propostaInstance?.anuncio?.titulo}</g:link></td>
 							
 								<td><g:formatDate date="${propostaInstance.dataEnvio}" /></td>
 							
-								<td>${fieldValue(bean: propostaInstance, field: "prazo")}</td>
-							
-								<td>${fieldValue(bean: propostaInstance, field: "profissional")}</td>
+								<td>${fieldValue(bean: propostaInstance, field: "prazo")} dias</td>
 							
 								<td>${fieldValue(bean: propostaInstance, field: "valor")}</td>
 							

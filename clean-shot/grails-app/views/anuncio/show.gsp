@@ -34,7 +34,7 @@
 					<li class="fieldcontain">
 						<span id="categoria-label" class="property-label"><g:message code="anuncio.categoria.label" default="Categoria" /></span>
 						
-							<span class="property-value" aria-labelledby="categoria-label"><g:link controller="categoria" action="show" id="${anuncioInstance?.categoria?.id}">${anuncioInstance?.categoria?.name?.encodeAsHTML()}</g:link></span>
+							<span class="property-value" aria-labelledby="categoria-label"><g:link controller="categoria" action="show" id="${anuncioInstance?.categoria?.id}">${anuncioInstance?.categoria?.nome?.encodeAsHTML()}</g:link></span>
 						
 					</li>
 				</g:if>
@@ -103,25 +103,25 @@
 				</g:if>
 			
 				<g:if test="${anuncioInstance?.propostas}">
-				<li class="fieldcontain">
-					<span id="propostas-label" class="property-label"><g:message code="anuncio.propostas.label" default="Propostas" /></span>
-					
-						<g:each in="${anuncioInstance.propostas}" var="p">
-						<span class="property-value" aria-labelledby="propostas-label"><g:link controller="proposta" action="show" id="${p.id}">${p?.encodeAsHTML()}</g:link></span>
-						</g:each>
-					
-				</li>
+					<li class="fieldcontain">
+						<span id="propostas-label" class="property-label"><g:message code="anuncio.propostas.label" default="Propostas" /></span>
+						
+							<g:each in="${anuncioInstance.propostas}" var="p">
+							<span class="property-value" aria-labelledby="propostas-label"><g:link controller="proposta" action="show" id="${p.id}">${p?.encodeAsHTML()}</g:link></span>
+							</g:each>
+						
+					</li>
 				</g:if>
 			
 				<g:if test="${anuncioInstance?.requisitos}">
-				<li class="fieldcontain">
-					<span id="requisitos-label" class="property-label"><g:message code="anuncio.requisitos.label" default="Requisitos" /></span>
-					
-						<g:each in="${anuncioInstance.requisitos}" var="r">
-						<span class="property-value" aria-labelledby="requisitos-label"><g:link controller="requisito" action="show" id="${r.id}">${r?.encodeAsHTML()}</g:link></span>
-						</g:each>
-					
-				</li>
+					<li class="fieldcontain">
+						<span id="requisitos-label" class="property-label"><g:message code="anuncio.requisitos.label" default="Requisitos" /></span>
+						
+							<g:each in="${anuncioInstance.requisitos}" var="r">
+							<span class="property-value" aria-labelledby="requisitos-label"><g:link controller="requisito" action="show" id="${r.id}">${r?.descricao?.encodeAsHTML()}</g:link></span>
+							</g:each>
+						
+					</li>
 				</g:if>
 			
 			</ol>

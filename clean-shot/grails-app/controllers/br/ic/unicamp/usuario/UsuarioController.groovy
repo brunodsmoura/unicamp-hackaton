@@ -62,7 +62,7 @@ class UsuarioController {
 	}
 	
 	def cancel(){
-		redirect(uri: "/")
+		redirect(uri: "/login")
 	}
 
 }

@@ -16,7 +16,7 @@ class TwitterService {
 	
 	public void tweetNovoAnuncio(Token accessToken, Anuncio novoAnuncio)
 		throws TwitterException {
-		if(!novoAnuncio) return
+		if(!accessToken || !novoAnuncio) return
 		
 		TwitterFactory factory = new TwitterFactory()
 		Twitter twitter = factory.getInstance()

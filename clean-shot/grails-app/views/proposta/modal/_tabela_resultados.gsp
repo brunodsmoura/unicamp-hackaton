@@ -1,7 +1,12 @@
 <g:if test="${!anuncios}">
 	<div class="form-group">
 		<div class="alert alert-warning">
-			<p class="bg-warning">Não foram encontrados registros.</p>
+			<g:if test="${!hasErrors}">
+				<p class="bg-warning">Não foram encontrados registros.</p>
+			</g:if>
+			<g:else>
+				<p class="bg-danger">${flash.error_message}</p>
+			</g:else>
 		</div>
 	</div>
 </g:if>

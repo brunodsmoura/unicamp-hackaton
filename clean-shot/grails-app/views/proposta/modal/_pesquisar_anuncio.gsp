@@ -50,10 +50,11 @@
 		$('button[name=pesquisar]').click(function(){
 			var categoria = $('select[name=categoria\\.id]').val()
 			var dataCriacao = $('input[name=dataCriacao]').val()
-			var requisitos = $.map($('select[name=requisito\\.id]:selected'), function (el, i) {
-		         return $(el).val();
-		    });
-			var requisito = requisitos.join(",")
+			var requisito = '';
+
+			$('select[name=requisito\\.id] option:selected').each(function(i){
+				requisito += ($(this).attr('value') + ',')
+			})
 
 			jQuery.ajax({
 				type: 'POST',
