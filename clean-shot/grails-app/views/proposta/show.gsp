@@ -24,12 +24,12 @@
 			<ol class="property-list proposta">
 			
 				<g:if test="${propostaInstance?.anuncio}">
-				<li class="fieldcontain">
-					<span id="anuncio-label" class="property-label"><g:message code="proposta.anuncio.label" default="Anuncio" /></span>
-					
-						<span class="property-value" aria-labelledby="anuncio-label"><g:link controller="anuncio" action="show" id="${propostaInstance?.anuncio?.id}">${propostaInstance?.anuncio?.encodeAsHTML()}</g:link></span>
-					
-				</li>
+					<li class="fieldcontain">
+						<span id="anuncio-label" class="property-label"><g:message code="proposta.anuncio.label" default="Anuncio" /></span>
+						
+							<span class="property-value" aria-labelledby="anuncio-label"><g:link controller="anuncio" action="show" id="${propostaInstance?.anuncio?.id}">${propostaInstance?.anuncio?.encodeAsHTML()}</g:link></span>
+						
+					</li>
 				</g:if>
 			
 				<g:if test="${propostaInstance?.dataEnvio}">

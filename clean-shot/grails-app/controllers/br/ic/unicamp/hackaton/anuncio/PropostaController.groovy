@@ -4,11 +4,14 @@ package br.ic.unicamp.hackaton.anuncio
 
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
+import br.ic.unicamp.hackaton.usuario.FreeLancer
 
 @Transactional(readOnly = true)
 class PropostaController {
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
+	
+	def springSecurityService
 
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
@@ -29,8 +32,12 @@ class PropostaController {
             notFound()
             return
         }
+		
+		FreeLancer loggedUser = (FreeLancer) springSecurityService.currentUser
+		propostaInstance.dataEnvio = new Date()
+		propostaInstance.profissional = loggedUser
 
-        if (propostaInstance.hasErrors()) {
+        if (!propostaInstance.validate()) {
             respond propostaInstance.errors, view:'create'
             return
         }
@@ -91,6 +98,34 @@ class PropostaController {
             '*'{ render status: NO_CONTENT }
         }
     }
+	
+	def renderModalAnuncio(){
+		render(template: '/proposta/modal/pesquisar_anuncio', model: ['requisitos': Requisito.list(sort: "descricao"), 
+																	  'categorias': Categoria.list(sort: "nome")])
+	}
+	
+	def recuperarAnuncios(){
+		Long categoriaId = params.long("categoria")
+		String titulo = params['titulo']
+		Date dataCriacao = params["dataCriacao"]
+		List<Long> requisitosId = parseLongs(params.list("requisito"))
+		List<Anuncio> anunciosEncontrados = Collections.emptyList()
+		
+		if(categoriaId || titulo || dataCriacao || requisitosId){
+			anunciosEncontrados = Anuncio.createCriteria().list {
+				if(categoriaId) eq("categoria.id", categoriaId)
+				if(titulo) ilike("titulo", "%"+titulo+"%")
+				if(requisitosId){
+					createAlias("requisitos", "req")
+					"in"("req.id", requisitosId)
+				}
+			}
+		} else {
+			flash.error_message = "Não foram encontrados registros"
+		}
+		
+		render(template: "/proposta/modal/tabela_resultados", model: ["anuncios": anunciosEncontrados])
+	}
 
     protected void notFound() {
         request.withFormat {
@@ -101,4 +136,21 @@ class PropostaController {
             '*'{ render status: NOT_FOUND }
         }
     }
+	
+	private List<Long> parseLongs(List<String> ids){
+		if(!ids) return Collections.emptyList()
+		
+		List<Long> parsedIds = []
+		
+		for(id in ids){
+			try{
+				parsedIds << Long.valueOf(id)	
+			}catch(NumberFormatException cause){
+				log.debug("Problemas na formatacao do id: ${id}")
+			}
+		}
+		
+		parsedIds.removeAll(Collections.singleton(null))
+		return parsedIds
+	}
 }

@@ -21,7 +21,7 @@ class AnuncioController {
 		params.max = Math.min(max ?: 10, 100)
 
 		Contratante loggedUser = (Contratante) springSecurityService.currentUser
-        respond Anuncio.findAllByContratante(loggedUser, params), model:[anuncioInstanceCount: Anuncio.countByContratante(loggedUser)]
+        respond Anuncio.findAllByContratante(loggedUser, params), model:[anuncioInstanceCount: Anuncio.countByContratante(loggedUser), usuarioLogado: loggedUser]
     }
 
     def show(Anuncio anuncioInstance) {

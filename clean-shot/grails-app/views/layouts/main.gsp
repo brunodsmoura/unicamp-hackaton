@@ -25,8 +25,23 @@
 		<r:layoutResources />
 	</head>
 	<body>
-		<div id="grailsLogo" role="banner"><a href="http://grails.org"><img src="${resource(dir: 'images', file: 'grails_logo.png')}" alt="Grails"/></a></div>
-
+		<div id="grailsLogo" role="banner"><img src="${resource(dir: 'images', file: 'clean-shot-logo2.png')}" alt="Clean Shot!"/></div>
+		
+		<g:if test="${(controllerName != 'login') && (controllerName != 'usuario')}">
+			<div class="row nav">
+				<div class="col-lg-8">
+					<g:pageProperty name="page.nav-bar"/>
+				</div>
+				<div class="col-lg-4">
+					<div class="col-lg-offset-10">
+						<form method="post" action="${request.contextPath}/logout/index">
+							<input type="submit" name="logout" class="btn btn-default" value="Logout" />
+						</form>
+					</div>
+				</div>
+			</div>
+		</g:if>
+		
 		<g:layoutBody/>
 		
 		<div class="footer" role="contentinfo"></div>

@@ -23,16 +23,18 @@ class UsuarioController {
 			return true
 		}
 		
-	    Token linkedinAccessToken = (Token) session[oauthService.findSessionKeyForAccessToken('linkedin')]
-	    def linkedInResponse = oauthService.getLinkedInResource(linkedinAccessToken, "http://api.linkedin.com/v1/people/~:(first-name,last-name,email-address)?format=json")
-	    def linkedinParsedResponse = JSON.parse(linkedInResponse?.getBody())
-
 		String nome = null
 		String email = null
-
-		if(linkedinParsedResponse){
-			nome = String.format("%s %s", linkedinParsedResponse?.firstName, linkedinParsedResponse?.lastName)
-			email = linkedinParsedResponse?.emailAddress
+		
+	    Token linkedinAccessToken = (Token) session[oauthService.findSessionKeyForAccessToken('linkedin')]
+		if(linkedinAccessToken){
+			def linkedInResponse = oauthService.getLinkedInResource(linkedinAccessToken, "http://api.linkedin.com/v1/people/~:(first-name,last-name,email-address)?format=json")
+			def linkedinParsedResponse = JSON.parse(linkedInResponse?.getBody())
+	
+			if(linkedinParsedResponse){
+				nome = String.format("%s %s", linkedinParsedResponse?.firstName, linkedinParsedResponse?.lastName)
+				email = linkedinParsedResponse?.emailAddress
+			}
 		}
 
 		Usuario usuario = new Contratante([nome: nome, email: email])

@@ -161,7 +161,7 @@ oauth {
 		key = '77sylrxe3rvita'
 		secret = '06vENagzDfqMe7UT'
 		successUri = '/usuario/create'
-		failureUri = '/oauth/linkedin/error'
+		failureUri = '/login'
 		callback = "${baseURL}/oauth/linkedin/callback"
 	  }
 	  
@@ -170,10 +170,10 @@ oauth {
 		  key = 'eZW8mm5KcK6KjX3NeccyjJ0Gp'
 		  secret = 'f3jESWB9vzIxBFpBqx0jH4qTBYPwjxA1LPyLOwhdnmhtMbFUxP'
 		  successUri = '/anuncio/sendTweet'
-		  failureUri = '/oauth/twitter/error'
+		  failureUri = '/'
 		  callback = "${baseURL}/oauth/twitter/callback"
 		}
 	}
 }
 
-security.successHandler.defaultTargetUrl="/home"
+grails.plugin.springsecurity.successHandler.defaultTargetUrl="/home"

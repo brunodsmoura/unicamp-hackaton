@@ -4,16 +4,21 @@
 		<meta name="layout" content="main">
 		<g:set var="entityName" value="${message(code: 'proposta.label', default: 'Proposta')}" />
 		<title><g:message code="default.create.label" args="[entityName]" /></title>
+		
+		<g:javascript src="bootstrap.min.js" />		
+		<g:javascript src="jquery.blockUI.js" />		
 	</head>
 	<body>
-		<div class="container">
-			<a href="#create-proposta" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
-			<div class="nav" role="navigation">
+		<content tag="nav-bar">
+			<div role="navigation">
 				<ul>
 					<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
 					<li><g:link class="list" action="index"><g:message code="default.list.label" args="[entityName]" /></g:link></li>
 				</ul>
 			</div>
+		</content>
+		<div class="container">
+			<a href="#create-proposta" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
 			<div id="create-proposta" class="content scaffold-create" role="main">
 				<h1><g:message code="default.create.label" args="[entityName]" /></h1>
 				<g:if test="${flash.message}">
@@ -44,5 +49,12 @@
 				</g:form>
 			</div>
 		</div>
+		<div class="modal container fade" id="pesquisar-anuncio"></div>
+		
+		<script type="text/javascript">
+			$(document).ajaxStart(function(){
+					$.blockUI({ message: 'Carregando...', baseZ: 2000 })
+				}).ajaxStop($.unblockUI);
+		</script>
 	</body>
 </html>
